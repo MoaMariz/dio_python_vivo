@@ -11,10 +11,12 @@
 - Operação de Extrato : Listar todos os Depositos e Saques, exibindo ao
     final o saldo da conta corrente. Usar formatação de moeda."""
 
+# Para melhorar a visualização vou dar pequena pausa na chamada do menu.
+import time
+
 # Declarando variaveis estáticas
 VALOR_MAXIMO = 500
 LIMITE_SAQUES = 3
-
 
 # Criando a classe ContaBancaria e suas funcionalidades
 
@@ -30,47 +32,52 @@ class ContaBancaria:
         if valor > 0:
             self.saldo += valor
             self.extrato.append("Depósito: R${:.2f}".format(valor))
+            print("\n" + "=" * 11 + "  DEPOSITO  " + "=" * 11)
+
             print(
-                "Depósito realizado no valor de : R${:.2f}".format(valor))
-            print("-" * 35)
+                "\nDepósito realizado no valor de : R${:.2f}".format(valor))
+            print("\n" + "=" * 33)
         else:
-            print("Operação falhou! O valor informado não é valido.")
-            print("-" * 35)
+            print("\nOperação falhou! O valor informado não é valido.")
+            print("\n" + "=" * 33)
 
 # Função de Saque
     def sacar(self, valor):
         if self.saques_diarios >= LIMITE_SAQUES:
-            print("Limite de saques diários atingido.")
-            print("-" * 35)
+            print("\nLimite de saques diários atingido.")
+            print("\n" + "=" * 33)
             return
         if valor > VALOR_MAXIMO:
-            print("O valor máximo para saque é de R${:.2f}.".format(
+            print("\nO valor máximo para saque é de R${:.2f}.".format(
                 VALOR_MAXIMO))
-            print("-" * 35)
+            print("\n" + "=" * 33)
             return
         if self.saldo >= valor:
             self.saldo -= valor
             self.extrato.append("Saque: R${:.2f}".format(valor))
             self.saques_diarios += 1
-            print("Saque realizado no valor de : R${:.2f}".format(valor))
-            print("-" * 35)
+            print("\n" + "=" * 12 + "  SAQUE  " + "=" * 12)
+            print("\nSaque realizado no valor de : R${:.2f}".format(valor))
+            print("\n" + "=" * 33)
         else:
             print("Saldo insuficiente.")
-            print("-" * 35)
+            print("\n" + "=" * 33)
 
 # Função Extrato
     def mostrar_extrato(self):
-        print("Extrato de transações:")
+        print("\n" + "=" * 11 + "  EXTRATO  " + "=" * 11)
         for transacao in self.extrato:
-            print(transacao)
-        print("Saldo atual: R${:.2f}\n".format(self.saldo))
-        print("-" * 35)
+            print("\n" + transacao)
+        print("\nSaldo atual: R${:.2f}\n".format(self.saldo))
+        print("\n" + "=" * 33)
 
 # Definindo o estilo do Menu
 
 
 def menu():
     print("""
+
+                MENU
 
 Digite a operação desejada:
 
@@ -79,7 +86,7 @@ Digite a operação desejada:
 (e) Ver Extrato
 (q) Sair
 
-------------------------------
+==================================
 """)
 
 # Chamando a função principal - main - no loop infinito
@@ -88,26 +95,24 @@ Digite a operação desejada:
 def main():
     conta = ContaBancaria()
     while True:
+        time.sleep(1)
         menu()
 
-        escolha = input("Escolha uma opção: ").lower()
+        escolha = input("\nEscolha uma opção: ").lower()
 
         if escolha == 'd':
-            valor = float(input("Digite o valor do depósito: "))
-            print("-" * 35)
+            valor = float(input("\nDigite o valor do depósito: "))
             conta.depositar(valor)
         elif escolha == 's':
-            valor = float(input("Digite o valor do saque: "))
-            print("-" * 35)
+            valor = float(input("\nDigite o valor do saque: "))
             conta.sacar(valor)
         elif escolha == 'e':
             conta.mostrar_extrato()
-            print("-" * 35)
         elif escolha == 'q':
-            print("Obrigado e até logo!")
+            print("\nObrigado e até logo!")
             break
         else:
-            print("Opção inválida. Por favor, tente novamente.")
+            print("\nOpção inválida. Por favor, tente novamente.")
 
 
 if __name__ == "__main__":
